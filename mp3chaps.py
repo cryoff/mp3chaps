@@ -31,15 +31,18 @@ def remove_chaps(tag):
     tag.chapters.remove(chap.element_id)
   tag.save()
 
-def parse_chapters_file(fname):
-  filename, ext = os.path.splitext(fname)
-  chapters_fname = "{}.chapters.txt".format(filename)
+def parse_chapters_file(chapters_fname):
   chaps = []
   with open(chapters_fname, "r") as f:
     for line in f.readlines():
       time, title = line.split()[0], " ".join(line.split()[1:])
       chaps.append((to_millisecs(time), title))
   return chaps
+
+def parse_chapters_file(fname):
+  filename, ext = os.path.splitext(fname)
+  chapters_fname = "{}.chapters.txt".format(filename)
+  return parse_chapters_file(fname, chapters_fname)
 
 def add_chapters(tag, fname):
   chaps = parse_chapters_file(fname)
